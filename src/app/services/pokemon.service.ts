@@ -16,7 +16,7 @@ export class PokemonService {
 
   constructor(private http: HttpClient) {}
 
-  public get pokemons(): Observable<Pokemon[]> {
+  public get pokemons$(): Observable<Pokemon[]> {
     return this._pokemons$.asObservable();
   }
 
@@ -37,61 +37,61 @@ export class PokemonService {
 const fakePokemons: Pokemon[] = [
   {
     id: 1,
-    name: 'bulbasaur',
+    name: 'Bulbasaur',
     imageUrl:
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
   },
   {
     id: 2,
-    name: 'ivysaur',
+    name: 'Ivysaur',
     imageUrl:
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png',
   },
   {
     id: 3,
-    name: 'venusaur',
+    name: 'Venusaur',
     imageUrl:
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png',
   },
   {
     id: 4,
-    name: 'charmander',
+    name: 'Charmander',
     imageUrl:
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
   },
   {
     id: 5,
-    name: 'charmeleon',
+    name: 'Charmeleon',
     imageUrl:
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png',
   },
   {
     id: 6,
-    name: 'charizard',
+    name: 'Charizard',
     imageUrl:
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png',
   },
   {
     id: 7,
-    name: 'squirtle',
+    name: 'Squirtle',
     imageUrl:
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png',
   },
   {
     id: 8,
-    name: 'wartortle',
+    name: 'Wartortle',
     imageUrl:
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png',
   },
   {
     id: 9,
-    name: 'blastoise',
+    name: 'Blastoise',
     imageUrl:
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png',
   },
   {
     id: 10,
-    name: 'caterpie',
+    name: 'Caterpie',
     imageUrl:
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png',
   },

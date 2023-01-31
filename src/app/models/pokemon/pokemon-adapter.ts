@@ -14,9 +14,10 @@ export class PokemonAdapter {
 
   private static buildPokemon(obj: { name: string; url: string }): Pokemon {
     const id = Number(obj.url.split('pokemon')[1].replace(RegExp(/\//gi), ''));
+    const name = obj.name.charAt(0).toUpperCase() + obj.name.slice(1);
     return {
       id,
-      name: obj.name,
+      name,
       imageUrl: `${POKEMON_SPRITE_BASE_URL}/${id}.png`,
     };
   }
