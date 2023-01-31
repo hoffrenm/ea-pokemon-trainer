@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Pokemon } from '../models/pokemon';
+import { Pokemon } from '../models/pokemon/pokemon';
+import { PokemonResponse } from '../models/pokemon/pokemon-responses';
+import { map } from 'rxjs';
+import { PokemonAdapter } from '../models/pokemon/pokemon-adapter';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +22,12 @@ export class PokemonService {
 
   public fetchPokemons(): void {
     this.http
-      .get<Pokemon[]>('https://pokeapi.co/api/v2/pokemon?limit=10')
+      .get<PokemonResponse>('https://pokeapi.co/api/v2/pokemon?limit=10')
+      .pipe(map(PokemonAdapter.transformResponse))
       .subscribe({
-        next: (value) => {
-          this._pokemons$.next(value)
-        }
+        next: (value: Pokemon[]) => {
+          this._pokemons$.next(value);
+        },
       });
   }
 }
