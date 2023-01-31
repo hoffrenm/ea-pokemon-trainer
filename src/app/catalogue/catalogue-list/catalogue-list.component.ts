@@ -8,9 +8,9 @@ import { PokemonService } from 'src/app/services/pokemon.service';
 })
 export class CatalogueListComponent {
   constructor(private service: PokemonService) {
-    // this.service.fetchPokemons();
-    // this.service.pokemons.subscribe((val) => {
-    //   console.log('Pokemons: ', val);
-    // });
+    this.service.fetchPokemons();
+    this.service.pokemons.subscribe((val) => {
+      console.log('Pokemons: ', val);
+    });
   }
 }
