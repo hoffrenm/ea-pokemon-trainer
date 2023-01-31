@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { CataloguePageComponent } from './catalogue/catalogue-page/catalogue-page.component';
 import { CataloguePagerComponent } from './catalogue/catalogue-pager/catalogue-pager.component';
 import { CatalogueListComponent } from './catalogue/catalogue-list/catalogue-list.component';
+import { PokemonService } from './services/pokemon.service';
+import { CatalogueListItemComponent } from './catalogue/catalogue-list-item/catalogue-list-item.component';
 
 @NgModule({
   declarations: [
@@ -14,13 +16,14 @@ import { CatalogueListComponent } from './catalogue/catalogue-list/catalogue-lis
     CataloguePageComponent,
     CataloguePagerComponent,
     CatalogueListComponent,
+    CatalogueListItemComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [PokemonService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
