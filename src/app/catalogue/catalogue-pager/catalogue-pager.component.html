@@ -1,1 +1,13 @@
-<p>catalogue-pager works!</p>
+<div class="flex place-content-center items-center">
+
+    <button (click)="onPreviousClick()" class="bg-primary mx-5 rounded-full w-5 h-5"></button>
+    <ul class="flex flex-row space-x-3">
+        <li *ngFor="let page of pages">
+            <p class="font-bot text-2xl cursor-pointer text-subtitle"
+                [ngClass]="{'border-b-2 border-black text-black': page === currentPage}">
+                {{page}}</p>
+        </li>
+    </ul>
+    <button (click)="onNextClick()" class="bg-primary mx-5 rounded-full w-5 h-5"></button>
+
+</div>

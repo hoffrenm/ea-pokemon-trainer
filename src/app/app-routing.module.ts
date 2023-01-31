@@ -4,11 +4,10 @@ import { CataloguePageComponent } from './catalogue/catalogue-page/catalogue-pag
 
 const routes: Routes = [
   { path: 'catalogue', component: CataloguePageComponent },
-
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
