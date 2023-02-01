@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-login-page',
@@ -9,6 +8,11 @@ import { LoginService } from 'src/app/services/login.service';
 })
 
 export class LoginPageComponent {
-  constructor(private readonly router: Router, private readonly loginService: LoginService) {
+  constructor(
+    private readonly router: Router) {
+  }
+
+  handleLogin(): void {
+    this.router.navigateByUrl('/catalogue')
   }
 }

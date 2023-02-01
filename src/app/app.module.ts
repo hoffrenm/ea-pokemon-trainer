@@ -11,6 +11,8 @@ import { PokemonService } from './services/pokemon.service';
 import { CatalogueListItemComponent } from './catalogue/catalogue-list-item/catalogue-list-item.component';
 import { LoginPageComponent } from './login/login-page/login-page.component';
 import { LoginService } from './services/login.service';
+import { FormsModule } from '@angular/forms';
+import { LoginFormComponent } from './login/login-form/login-form.component';
 
 @NgModule({
   declarations: [
@@ -20,11 +22,13 @@ import { LoginService } from './services/login.service';
     CatalogueListComponent,
     CatalogueListItemComponent,
     LoginPageComponent,
+    LoginFormComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     PokemonService,
