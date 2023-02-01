@@ -1,7 +1,5 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { Pokemon } from 'src/app/models/pokemon/pokemon';
-import { PokemonService } from 'src/app/services/pokemon.service';
 
 @Component({
   selector: 'app-catalogue-list',
