@@ -6,10 +6,7 @@ import { environment } from 'src/environments/environment';
 
 const { userApi, apiKey } = environment;
 
-@Injectable({
-  providedIn: 'root'
-})
-
+@Injectable({ providedIn: 'root' })
 export class LoginService {
   constructor(private readonly http: HttpClient) { }
 

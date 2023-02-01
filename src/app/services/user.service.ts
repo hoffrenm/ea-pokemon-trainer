@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/user/user';
 import { StorageUtils } from '../utils/storage.util';
 
-@Injectable({
-  providedIn: 'root'
-})
-
+@Injectable({ providedIn: 'root' })
 export class UserService {
   constructor() {
     this._user = StorageUtils.storageRead<User>('user');
@@ -18,7 +15,7 @@ export class UserService {
   }
 
   set user(user: User | undefined) {
-    StorageUtils.storageSave<User>('user', user!) 
+    StorageUtils.storageSave<User>('user', user!);
     this._user = user;
   }
 }

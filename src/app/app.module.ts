@@ -32,7 +32,7 @@ import { LoginFormComponent } from './login/login-form/login-form.component';
   ],
   providers: [
     PokemonService,
-    LoginService
+    LoginService,
   ],
   bootstrap: [AppComponent]
 })
