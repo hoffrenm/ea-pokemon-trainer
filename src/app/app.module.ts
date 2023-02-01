@@ -11,6 +11,7 @@ import { PokemonService } from './services/pokemon.service';
 import { CatalogueListItemComponent } from './catalogue/catalogue-list-item/catalogue-list-item.component';
 import { PageBackgroundComponent } from './common/page-background/page-background.component';
 import { PageWrapperComponent } from './common/page-wrapper/page-wrapper.component';
+import { PageNavbarComponent } from './common/page-navbar/page-navbar.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { PageWrapperComponent } from './common/page-wrapper/page-wrapper.compone
     CatalogueListItemComponent,
     PageBackgroundComponent,
     PageWrapperComponent,
+    PageNavbarComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [PokemonService],
