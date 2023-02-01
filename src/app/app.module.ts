@@ -10,6 +10,7 @@ import { CatalogueListComponent } from './catalogue/catalogue-list/catalogue-lis
 import { PokemonService } from './services/pokemon.service';
 import { CatalogueListItemComponent } from './catalogue/catalogue-list-item/catalogue-list-item.component';
 import { LoginPageComponent } from './login/login-page/login-page.component';
+import { LoginService } from './services/login.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,10 @@ import { LoginPageComponent } from './login/login-page/login-page.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [PokemonService],
+  providers: [
+    PokemonService,
+    LoginService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
