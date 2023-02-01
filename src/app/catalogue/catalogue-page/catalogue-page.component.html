@@ -1,6 +1,7 @@
 <app-page-wrapper>
     <p>Pokemon list page</p>
 
-    <app-catalogue-pager></app-catalogue-pager>
-    <app-catalogue-list></app-catalogue-list>
+    <app-catalogue-pager [pages]="pages" [currentPage]="currentPage"
+        [onPageChanged]="onPageChanged"></app-catalogue-pager>
+    <app-catalogue-list [pokemons]="pokemons"></app-catalogue-list>
 </app-page-wrapper>

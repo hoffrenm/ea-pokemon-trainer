@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-catalogue-pager',
@@ -6,18 +6,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./catalogue-pager.component.css'],
 })
 export class CataloguePagerComponent {
-  public currentPage: number = 1;
-  public pages: number[] = [1, 2, 3, 4, 5, 6, 7];
+  @Input() pages?: number[];
+  @Input() currentPage?: number;
+  @Input() onPageChanged?: (page: number) => void;
 
   public onNextClick(): void {
-    this.currentPage++;
+    if (this.onPageChanged && this.currentPage)
+      this.onPageChanged(this.currentPage + 1);
   }
 
   public onPreviousClick(): void {
-    this.currentPage--;
+    if (this.onPageChanged && this.currentPage)
+      this.onPageChanged(this.currentPage - 1);
   }
 
   public goToPage(num: number): void {
-    this.currentPage = num;
+    if (this.onPageChanged) this.onPageChanged(num);
   }
 }

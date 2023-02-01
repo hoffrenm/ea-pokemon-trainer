@@ -11,11 +11,11 @@ import { Pokemon } from './pokemon';
  * /pokemon/
  */
 export interface PokemonResponse {
-  next: string
+  count: number;
   results: {
-    name: string,
-    url: string
-  }[]
+    name: string;
+    url: string;
+  }[];
 }
 
 /**
