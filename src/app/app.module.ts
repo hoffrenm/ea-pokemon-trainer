@@ -9,6 +9,7 @@ import { CataloguePagerComponent } from './catalogue/catalogue-pager/catalogue-p
 import { CatalogueListComponent } from './catalogue/catalogue-list/catalogue-list.component';
 import { PokemonService } from './services/pokemon.service';
 import { CatalogueListItemComponent } from './catalogue/catalogue-list-item/catalogue-list-item.component';
+import { LoginPageComponent } from './login/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { CatalogueListItemComponent } from './catalogue/catalogue-list-item/cata
     CataloguePagerComponent,
     CatalogueListComponent,
     CatalogueListItemComponent,
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule,
