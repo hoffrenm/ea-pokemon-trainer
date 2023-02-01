@@ -13,6 +13,7 @@ const BATCH_SIZE = 25;
   providedIn: 'root',
 })
 export class PokemonService {
+  private cache: Map<number, Pokemon[]> = new Map();
   private readonly _pageCount$: BehaviorSubject<number> =
     new BehaviorSubject<number>(1);
   private readonly _pokemons$: BehaviorSubject<Pokemon[]> = new BehaviorSubject<
@@ -32,8 +33,9 @@ export class PokemonService {
   }
 
   public fetchPokemons(page: number): void {
-    if (page <= 0) {
-      console.error('Page number must be greater than 0.');
+    if (this.cache.has(page)) {
+      const pokemons = this.cache.get(page)!!;
+      this._pokemons$.next(pokemons);
       return;
     }
 
@@ -47,6 +49,7 @@ export class PokemonService {
       .subscribe({
         next: (value: Pokemon[]) => {
           this._pokemons$.next(value);
+          this.cache.set(page, value);
         },
       });
   }
