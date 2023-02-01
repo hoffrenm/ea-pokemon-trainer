@@ -39,7 +39,6 @@ export class PokemonService {
       return;
     }
 
-    // this._pokemons$.next(fakePokemons.concat(fakePokemons));
     const offset = (page - 1) * BATCH_SIZE;
     this.http
       .get<PokemonResponse>(
