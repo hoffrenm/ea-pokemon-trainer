@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-catalogue-pager',
@@ -16,5 +15,9 @@ export class CataloguePagerComponent {
 
   public onPreviousClick(): void {
     this.currentPage--;
+  }
+
+  public goToPage(num: number): void {
+    this.currentPage = num;
   }
 }
