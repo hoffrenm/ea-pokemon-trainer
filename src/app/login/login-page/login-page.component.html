@@ -1,3 +1,45 @@
-<p>login-page works!</p>
+<!-- <div class="">
+  <div class="h-full">
+    <div
+      class="w-5/12 bg-gradient-to-t from-primary to-secondary h-screen rounded-tr-[80px] rounded-br-[80px]">
+    </div>
+    <div class="ml-16">
+      LOL
+      <app-login-form (login)="handleLogin()"></app-login-form>
+    </div>
+  </div>
+</div> -->
 
-<app-login-form (login)="handleLogin()"></app-login-form>
+<section class="h-screen">
+  <div class="flex flex-row items-center flex-wrap h-full">
+
+    <div
+      class="w-5/12 flex flex-col columns-3 items-center bg-gradient-to-t from-primary to-secondary h-screen shadow rounded-tr-[80px] rounded-br-[80px]">
+
+      <div class="h-4/6 flex justify-center items-center">
+        <img class="transform scale-50" src="assets/pokeball.png" alt="Pokeball" />
+      </div>
+
+      <div class="h-1/6 w-full h-full text-8xl pl-20">
+        <p class="text-white font-int font-extralight">Pokedex</p>
+      </div>
+
+      <div class="h-1/6 w-full h-full text-4xl pl-40">
+        <p class="text-white font-bot">Catch 'em all!</p>
+      </div>
+    </div>
+
+    <div class="w-7/12 flex flex-col justify-center items-center">
+      <div class="flex justify-center items-center">
+        <p>Welcome!</p>
+      </div>
+
+      <div>
+        <p>Enter your username below to get started!</p>
+      </div>
+
+
+      <app-login-form (login)="handleLogin()"></app-login-form>
+    </div>
+  </div>
+</section>
