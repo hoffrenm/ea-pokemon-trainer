@@ -1,5 +1,5 @@
 <app-page-wrapper>
     <app-catalogue-pager [pages]="displayedPageNumbers" [currentPage]="currentPage"
-        [onPageChanged]="onPageChanged"></app-catalogue-pager>
+        (onPageChanged)="onPageChanged($event)"></app-catalogue-pager>
     <app-catalogue-list [pokemons]="pokemons"></app-catalogue-list>
 </app-page-wrapper>

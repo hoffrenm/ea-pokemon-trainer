@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-catalogue-pager',
@@ -8,16 +8,14 @@ import { Component, Input } from '@angular/core';
 export class CataloguePagerComponent {
   @Input() pages?: number[];
   @Input() currentPage?: number;
-  @Input() onPageChanged?: (page: number) => void;
+  @Output() onPageChanged = new EventEmitter<number>();
 
   public onNextClick(): void {
-    if (this.onPageChanged && this.currentPage)
-      this.onPageChanged(this.currentPage + 1);
+    if (this.currentPage) this.onPageChanged.emit(this.currentPage + 1);
   }
 
   public onPreviousClick(): void {
-    if (this.onPageChanged && this.currentPage)
-      this.onPageChanged(this.currentPage - 1);
+    if (this.currentPage) this.onPageChanged.emit(this.currentPage - 1);
   }
 
   public shouldRenderFirstDots(page: number): boolean {
@@ -32,6 +30,6 @@ export class CataloguePagerComponent {
   }
 
   public goToPage(num: number): void {
-    if (this.onPageChanged) this.onPageChanged(num);
+    this.onPageChanged.emit(num);
   }
 }
