@@ -7,7 +7,7 @@ import { map } from 'rxjs';
 import { PokemonAdapter } from '../models/pokemon/pokemon-adapter';
 
 // How many pokemons per fetch
-const BATCH_SIZE = 25;
+const BATCH_SIZE = 50;
 
 @Injectable({
   providedIn: 'root',

@@ -7,6 +7,11 @@ import { AppComponent } from './app.component';
 import { CataloguePageComponent } from './catalogue/catalogue-page/catalogue-page.component';
 import { CataloguePagerComponent } from './catalogue/catalogue-pager/catalogue-pager.component';
 import { CatalogueListComponent } from './catalogue/catalogue-list/catalogue-list.component';
+import { ProfileInfoComponent } from './profile/profile-info/profile-info.component';
+import { ProfilePage } from './profile/profile/profile.page';
+import { ProfileCollectionComponent } from './profile/profile-collection/profile-collection.component';
+import { ProfileCollectionItemComponent } from './profile/profile-collection-item/profile-collection-item.component';
+import { CollectionUpdateButtonComponent } from './components/collection-update-button/collection-update-button.component';
 import { PokemonService } from './services/pokemon.service';
 import { CatalogueListItemComponent } from './catalogue/catalogue-list-item/catalogue-list-item.component';
 import { LoginPageComponent } from './login/login-page/login-page.component';
@@ -23,6 +28,11 @@ import { PageNavbarComponent } from './common/page-navbar/page-navbar.component'
     CataloguePageComponent,
     CataloguePagerComponent,
     CatalogueListComponent,
+    ProfileInfoComponent,
+    ProfilePage,
+    ProfileCollectionComponent,
+    ProfileCollectionItemComponent,
+    CollectionUpdateButtonComponent,
     CatalogueListItemComponent,
     PageBackgroundComponent,
     PageWrapperComponent,
@@ -30,16 +40,8 @@ import { PageNavbarComponent } from './common/page-navbar/page-navbar.component'
     LoginPageComponent,
     LoginFormComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule
-  ],
-  providers: [
-    PokemonService,
-    LoginService,
-  ],
-  bootstrap: [AppComponent]
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  providers: [PokemonService, LoginService],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
