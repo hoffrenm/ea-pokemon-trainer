@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { Pokemon } from '../models/pokemon/pokemon';
-import { PokemonResponse } from '../models/pokemon/pokemon-responses';
+import {
+  PokemonDetailsResponse,
+  PokemonResponse,
+} from '../models/pokemon/pokemon-responses';
 import { map } from 'rxjs';
 import { PokemonAdapter } from '../models/pokemon/pokemon-adapter';
 
@@ -14,17 +17,20 @@ const BATCH_SIZE = 50;
 })
 export class PokemonService {
   private cache: Map<number, Pokemon[]> = new Map();
-  private readonly _pageCount$: BehaviorSubject<number> =
-    new BehaviorSubject<number>(1);
-  private readonly _pokemons$: BehaviorSubject<Pokemon[]> = new BehaviorSubject<
-    Pokemon[]
-  >([]);
+  private readonly _pageCount$ = new BehaviorSubject<number>(1);
+  private readonly _pokemons$ = new BehaviorSubject<Pokemon[]>([]);
+  private readonly _pokemonsByIds$ = new BehaviorSubject<Pokemon[]>([]);
 
   constructor(private http: HttpClient) {}
 
   /** List of the pokemons on the most recently fetched page. */
   public get pokemons$(): Observable<Pokemon[]> {
     return this._pokemons$.asObservable();
+  }
+
+  /** List of the pokemons matching the last fetch by ids result. */
+  public get pokemonsById$(): Observable<Pokemon[]> {
+    return this._pokemonsByIds$.asObservable();
   }
 
   /** Total available page count of pokemons. */
@@ -53,8 +59,37 @@ export class PokemonService {
       });
   }
 
-  public getByIds(ids: string[]): Observable<Pokemon[]> {
-    throw new Error('Not implemented.');
+  public fetchByIds(ids: number[]) {
+    console.log('Fetch by ids called');
+    const fetchIds: Set<number> = new Set(ids);
+    const cached = [...this.cache.values()];
+    const local = cached.flat().filter((it) => {
+      if (ids.includes(it.id) && fetchIds.has(it.id)) {
+        fetchIds.delete(it.id);
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    // All pokemon ids found in cache, skip requests
+    if (fetchIds.size === 0 && cached.length !== 0) {
+      this._pokemonsByIds$.next(local);
+      return;
+    }
+
+    // Fetch the pokemons not found locally
+    const requests: Observable<Pokemon>[] = [...fetchIds].map((it) => {
+      return this.http
+        .get<PokemonDetailsResponse>(`https://pokeapi.co/api/v2/pokemon/${it}`)
+        .pipe(map(PokemonAdapter.transformDetailsResponse));
+    });
+
+    forkJoin(requests).subscribe((pokemons) => {
+      // Save to page -1
+      this.cache.set(-1, pokemons);
+      this._pokemonsByIds$.next(local.concat(pokemons));
+    });
   }
 
   private updatePageCount = (response: PokemonResponse): PokemonResponse => {
@@ -64,67 +99,3 @@ export class PokemonService {
     return response;
   };
 }
-
-// to not spam the pokemon api
-const fakePokemons: Pokemon[] = [
-  {
-    id: 1,
-    name: 'Bulbasaur',
-    imageUrl:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
-  },
-  {
-    id: 2,
-    name: 'Ivysaur',
-    imageUrl:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png',
-  },
-  {
-    id: 3,
-    name: 'Venusaur',
-    imageUrl:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png',
-  },
-  {
-    id: 4,
-    name: 'Charmander',
-    imageUrl:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
-  },
-  {
-    id: 5,
-    name: 'Charmeleon',
-    imageUrl:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png',
-  },
-  {
-    id: 6,
-    name: 'Charizard',
-    imageUrl:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png',
-  },
-  {
-    id: 7,
-    name: 'Squirtle',
-    imageUrl:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png',
-  },
-  {
-    id: 8,
-    name: 'Wartortle',
-    imageUrl:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png',
-  },
-  {
-    id: 9,
-    name: 'Blastoise',
-    imageUrl:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png',
-  },
-  {
-    id: 10,
-    name: 'Caterpie',
-    imageUrl:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png',
-  },
-];

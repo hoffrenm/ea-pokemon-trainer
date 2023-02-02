@@ -1,6 +1,6 @@
 import { POKEMON_SPRITE_BASE_URL } from 'src/app/values/url';
 import { Pokemon } from './pokemon';
-import { PokemonResponse } from './pokemon-responses';
+import { PokemonDetailsResponse, PokemonResponse } from './pokemon-responses';
 
 /**
  * Class containing the methods to transform
@@ -10,6 +10,15 @@ import { PokemonResponse } from './pokemon-responses';
 export class PokemonAdapter {
   static transformResponse(response: PokemonResponse): Pokemon[] {
     return response.results.map(PokemonAdapter.buildPokemon);
+  }
+
+  static transformDetailsResponse(response: PokemonDetailsResponse): Pokemon {
+    return {
+      id: response.id,
+      name: response.name.charAt(0).toUpperCase() + response.name.slice(1),
+      imageUrl: `${POKEMON_SPRITE_BASE_URL}/${response.id}.png`,
+      stats: response.stats,
+    };
   }
 
   private static buildPokemon(obj: { name: string; url: string }): Pokemon {
