@@ -29,12 +29,11 @@ export class CataloguePageComponent implements OnDestroy {
     this._service = service;
   }
 
-  // Needs to be an arrow function to keep [this] reference
-  onPageChanged = (page: number): void => {
+  public onPageChanged(page: number): void {
     this.currentPage = page;
     this.service.fetchPokemons(page);
     this.calculatePages(page);
-  };
+  }
 
   // Calculate displayed pages based on the provided page number
   private calculatePages(page: number) {
