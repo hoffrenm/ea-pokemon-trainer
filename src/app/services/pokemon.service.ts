@@ -8,6 +8,7 @@ import {
 } from '../models/pokemon/pokemon-responses';
 import { map } from 'rxjs';
 import { PokemonAdapter } from '../models/pokemon/pokemon-adapter';
+import { PokemonCache } from '../models/pokemon/pokemon-cache';
 
 // How many pokemons per fetch
 const BATCH_SIZE = 50;
@@ -16,7 +17,7 @@ const BATCH_SIZE = 50;
   providedIn: 'root',
 })
 export class PokemonService {
-  private cache: Map<number, Pokemon[]> = new Map();
+  private cache: PokemonCache = new PokemonCache();
   private readonly _pageCount$ = new BehaviorSubject<number>(1);
   private readonly _pokemons$ = new BehaviorSubject<Pokemon[]>([]);
   private readonly _pokemonsByIds$ = new BehaviorSubject<Pokemon[]>([]);
@@ -42,6 +43,7 @@ export class PokemonService {
     if (this.cache.has(page)) {
       const pokemons = this.cache.get(page)!!;
       this._pokemons$.next(pokemons);
+      this._pageCount$.next(this.cache.getPageCount());
       return;
     }
 
@@ -60,10 +62,9 @@ export class PokemonService {
   }
 
   public fetchByIds(ids: number[]) {
-    console.log('Fetch by ids called');
     const fetchIds: Set<number> = new Set(ids);
-    const cached = [...this.cache.values()];
-    const local = cached.flat().filter((it) => {
+    const cached = this.cache.all();
+    const local = cached.filter((it) => {
       if (ids.includes(it.id) && fetchIds.has(it.id)) {
         fetchIds.delete(it.id);
         return true;
@@ -94,7 +95,9 @@ export class PokemonService {
 
   private updatePageCount = (response: PokemonResponse): PokemonResponse => {
     if (this._pageCount$.value === 1) {
-      this._pageCount$.next(response.count / BATCH_SIZE);
+      const count = Math.ceil(response.count / BATCH_SIZE);
+      this._pageCount$.next(count);
+      this.cache.setPageCount(count);
     }
     return response;
   };
