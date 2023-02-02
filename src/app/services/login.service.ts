@@ -1,18 +1,18 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of, switchMap } from 'rxjs';
-import { User } from '../models/user/user';
+import { Trainer } from '../models/trainer.model';
 import { environment } from 'src/environments/environment';
 
 const { userApi, apiKey } = environment;
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
-  public login(username: string): Observable<User> {
+  public login(username: string): Observable<Trainer> {
     return this.checkUsername(username).pipe(
-      switchMap((user: User | undefined) => {
+      switchMap((user: Trainer | undefined) => {
         if (user === undefined) {
           return this.createUser(username);
         }
@@ -22,13 +22,13 @@ export class LoginService {
     );
   }
 
-  private checkUsername(username: string): Observable<User | undefined> {
+  private checkUsername(username: string): Observable<Trainer | undefined> {
     return this.http
-      .get<User[]>(`${userApi}?username=${username}`)
-      .pipe(map((response: User[]) => response.pop()));
+      .get<Trainer[]>(`${userApi}?username=${username}`)
+      .pipe(map((response: Trainer[]) => response.pop()));
   }
 
-  private createUser(username: string): Observable<User> {
+  private createUser(username: string): Observable<Trainer> {
     const user = {
       username,
       pokemon: [],
@@ -39,6 +39,6 @@ export class LoginService {
       'x-api-key': apiKey,
     });
 
-    return this.http.post<User>(userApi, user, { headers });
+    return this.http.post<Trainer>(userApi, user, { headers });
   }
 }

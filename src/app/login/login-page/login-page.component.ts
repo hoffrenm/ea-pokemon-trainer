@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
+import { TrainerService } from 'src/app/services/trainer.service';
 
 @Component({
   selector: 'app-login-page',
@@ -10,10 +10,10 @@ import { UserService } from 'src/app/services/user.service';
 export class LoginPageComponent {
   constructor(
     private readonly router: Router,
-    private readonly userService: UserService) {
+    private readonly trainerService: TrainerService) {
       // in case a logged in user tries to access login page again.
       // could be refactored into a guard if more use cases arises.
-      if (userService.user) {
+      if (trainerService.trainer) {
         router.navigateByUrl('/catalogue')
       }
   }
