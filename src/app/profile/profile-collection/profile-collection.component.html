@@ -1,0 +1,6 @@
+<h3>Your pokemon collection</h3>
+<ul>
+    <div *ngFor="let pokemon of collection">
+        <app-profile-collection-item [collectionItem]="pokemon"></app-profile-collection-item>
+    </div>
+</ul>

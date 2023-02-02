@@ -3,6 +3,7 @@ import { PokemonType } from "./type"
 export interface Pokemon {
     id: number
     name: string
-    types: PokemonType[] 
-    stats: any[] // ?
+    types?: PokemonType[]
+    imageUrl: string;
+    stats?: any[] // ?
 }
