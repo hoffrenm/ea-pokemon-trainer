@@ -9,6 +9,8 @@ import {
   Subscription,
 } from 'rxjs';
 import { Pokemon } from '../models/pokemon/pokemon';
+import { PokemonAdapter } from '../models/pokemon/pokemon-adapter';
+import { PokemonResponse } from '../models/pokemon/pokemon-responses';
 
 @Injectable({
   providedIn: 'root',
@@ -48,10 +50,7 @@ export class Pokemon2Service {
     this.http
       .get<PokemonResponse>('https://pokeapi.co/api/v2/pokemon?limit=100')
       .pipe(
-        map((pokemonResponse: PokemonResponse) => {
-          console.log(pokemonResponse);
-          return pokemonResponse.results;
-        }),
+        map(PokemonAdapter.transformResponse),
         finalize(() => {
           this._loading = false;
         })
@@ -75,9 +74,7 @@ export class Pokemon2Service {
     this.http
       .get<PokemonResponse>('https://pokeapi.co/api/v2/pokemon?limit=25')
       .pipe(
-        map((pokemonResponse: PokemonResponse) => {
-          return pokemonResponse.results;
-        }),
+        map(PokemonAdapter.transformResponse),
         finalize(() => {
           this._loading = false;
         })
@@ -130,8 +127,4 @@ export class Pokemon2Service {
     //   return x
     // })
   }
-}
-
-interface PokemonResponse {
-  results: Pokemon[];
 }

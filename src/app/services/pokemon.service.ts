@@ -53,6 +53,10 @@ export class PokemonService {
       });
   }
 
+  public getByIds(ids: string[]): Observable<Pokemon[]> {
+    throw new Error('Not implemented.');
+  }
+
   private updatePageCount = (response: PokemonResponse): PokemonResponse => {
     if (this._pageCount$.value === 1) {
       this._pageCount$.next(response.count / BATCH_SIZE);
