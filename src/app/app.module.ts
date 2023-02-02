@@ -9,6 +9,10 @@ import { CataloguePagerComponent } from './catalogue/catalogue-pager/catalogue-p
 import { CatalogueListComponent } from './catalogue/catalogue-list/catalogue-list.component';
 import { PokemonService } from './services/pokemon.service';
 import { CatalogueListItemComponent } from './catalogue/catalogue-list-item/catalogue-list-item.component';
+import { LoginPageComponent } from './login/login-page/login-page.component';
+import { LoginService } from './services/login.service';
+import { FormsModule } from '@angular/forms';
+import { LoginFormComponent } from './login/login-form/login-form.component';
 import { PageBackgroundComponent } from './common/page-background/page-background.component';
 import { PageWrapperComponent } from './common/page-wrapper/page-wrapper.component';
 import { PageNavbarComponent } from './common/page-navbar/page-navbar.component';
@@ -20,12 +24,19 @@ import { PageNavbarComponent } from './common/page-navbar/page-navbar.component'
     CataloguePagerComponent,
     CatalogueListComponent,
     CatalogueListItemComponent,
-    PageBackgroundComponent,
-    PageWrapperComponent,
-    PageNavbarComponent,
+    LoginPageComponent,
+    LoginFormComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
-  providers: [PokemonService],
-  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
+  ],
+  providers: [
+    PokemonService,
+    LoginService,
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
