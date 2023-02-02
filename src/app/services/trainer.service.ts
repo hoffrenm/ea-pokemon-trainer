@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { StorageKeys } from '../enums/storage-keys.enum';
 import { Trainer } from '../models/trainer.model';
 import { StorageUtil } from '../utils/storage.utils';
-import { Pokemon } from '../models/pokemon';
+import { Pokemon } from '../models/pokemon/pokemon';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TrainerService {
-
   private _trainer?: Trainer;
 
   get trainer(): Trainer | undefined {
@@ -16,29 +15,33 @@ export class TrainerService {
   }
 
   set trainer(trainer: Trainer | undefined) {
-    this._trainer = trainer
+    this._trainer = trainer;
   }
 
   constructor() {
-    this._trainer = StorageUtil.storageRead<Trainer>(StorageKeys.Trainer)
+    this._trainer = StorageUtil.storageRead<Trainer>(StorageKeys.Trainer);
   }
 
   public inCollection(pokemonName: string): boolean {
     if (this._trainer) {
-      return Boolean(this.trainer?.pokemon.find((name: string) => name === pokemonName))
+      return Boolean(
+        this.trainer?.pokemon.find((name: string) => name === pokemonName)
+      );
     }
     return false;
   }
 
   public addToCollection(pokemonName: string): void {
     if (this._trainer) {
-      this._trainer.pokemon.push(pokemonName)
+      this._trainer.pokemon.push(pokemonName);
     }
   }
 
   public removeFromCollection(pokemonName: string): void {
     if (this._trainer) {
-      this._trainer.pokemon = this._trainer.pokemon.filter((name: string) => name !== pokemonName)
+      this._trainer.pokemon = this._trainer.pokemon.filter(
+        (name: string) => name !== pokemonName
+      );
     }
   }
 }

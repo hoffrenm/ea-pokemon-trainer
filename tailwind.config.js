@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,js}"],
+  content: ["./src/**/*.{html,js,ts}"],
   theme: {
     extend: {
       colors: {
@@ -8,6 +8,7 @@ module.exports = {
         secondary: "#FEB47B",
         title: "#1C2826",
         subtitle: "#999999",
+        lightgray: "#F1F1F1",
       },
       fontFamily: {
         int: ["Inter", "sans-serif"],

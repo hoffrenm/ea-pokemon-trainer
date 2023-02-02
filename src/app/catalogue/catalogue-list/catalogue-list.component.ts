@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { Pokemon } from 'src/app/models/pokemon/pokemon';
 
 @Component({
   selector: 'app-catalogue-list',
   templateUrl: './catalogue-list.component.html',
-  styleUrls: ['./catalogue-list.component.css']
+  styleUrls: ['./catalogue-list.component.css'],
 })
 export class CatalogueListComponent {
-
+  @Input() public pokemons: Pokemon[] = [];
 }

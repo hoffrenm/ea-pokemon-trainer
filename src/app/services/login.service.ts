@@ -1,56 +1,44 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, switchMap, of, tap } from 'rxjs';
-import { StorageKeys } from '../enums/storage-keys.enum';
-import { Trainer } from '../models/trainer.model';
-import { StorageUtil } from '../utils/storage.utils';
+import { map, Observable, of, switchMap } from 'rxjs';
+import { User } from '../models/user/user';
+import { environment } from 'src/environments/environment';
 
-const url = 'https://noroff-api-production-70b3.up.railway.app/trainers'
+const { userApi, apiKey } = environment;
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class LoginService {
+  constructor(private readonly http: HttpClient) {}
 
-  constructor(private readonly http: HttpClient) { }
+  public login(username: string): Observable<User> {
+    return this.checkUsername(username).pipe(
+      switchMap((user: User | undefined) => {
+        if (user === undefined) {
+          return this.createUser(username);
+        }
 
-  public login(username: string): Observable<Trainer> {
-    return this.checkUsername(username)
-      .pipe(
-        switchMap((trainer: Trainer | undefined) => {
-          if (trainer === undefined) {
-            return this.createUser(username);
-          }
-          return of(trainer);
-        }),
-        tap((trainer: Trainer) => {
-          StorageUtil.storageSave<Trainer>(StorageKeys.Trainer, trainer)
-        })
-      )
-
+        return of(user);
+      })
+    );
   }
 
-  private checkUsername(username: string): Observable<Trainer | undefined> {
-    return this.http.get<Trainer[]>(`${url}?username=${username}`)
-      .pipe(
-        map((response: Trainer[]) => response.pop())
-      )
+  private checkUsername(username: string): Observable<User | undefined> {
+    return this.http
+      .get<User[]>(`${userApi}?username=${username}`)
+      .pipe(map((response: User[]) => response.pop()));
   }
 
-  private createUser(username: string): Observable<Trainer> {
-    const trainer = {
+  private createUser(username: string): Observable<User> {
+    const user = {
       username,
-      pokemon: []
+      pokemon: [],
     };
 
     const headers = new HttpHeaders({
-      "Content-Type": "application/json",
-      "x-api-key": "KLz98453JKLF90KJ8yffj"
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
     });
 
-    return this.http.post<Trainer>(url, trainer, {
-      headers
-    })
+    return this.http.post<User>(userApi, user, { headers });
   }
 }
-
