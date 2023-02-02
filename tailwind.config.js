@@ -8,6 +8,7 @@ module.exports = {
         secondary: "#FEB47B",
         title: "#1C2826",
         subtitle: "#999999",
+        lightgray: "#F1F1F1",
       },
       fontFamily: {
         int: ["Inter", "sans-serif"],
