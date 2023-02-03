@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { last, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Pokemon } from 'src/app/models/pokemon/pokemon';
 import { PagerService } from 'src/app/services/pager.service';
 import { PokemonService } from 'src/app/services/pokemon.service';
@@ -28,7 +28,7 @@ export class CataloguePageComponent implements OnDestroy {
       }),
       this.pagerService.currentPage$.subscribe((it) => {
         this.currentPage = it;
-        if (this.pokemons.length === 0) this.service.fetchPokemons(it);
+        this.service.fetchPokemons(it);
       }),
       this.service.pokemons$.subscribe((it) => {
         this.pokemons = it;
@@ -37,7 +37,6 @@ export class CataloguePageComponent implements OnDestroy {
   }
 
   public onPageChanged(page: number): void {
-    this.service.fetchPokemons(page);
     this.pagerService.onPageChange(page);
   }
 

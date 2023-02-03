@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Pokemon } from 'src/app/models/pokemon/pokemon';
 import { PokemonType, resolveColor } from 'src/app/models/pokemon/pokemon-type';
 import { capFirstCharacter } from 'src/app/utils/string.utils';
