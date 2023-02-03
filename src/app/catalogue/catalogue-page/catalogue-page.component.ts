@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { last, Subscription } from 'rxjs';
 import { Pokemon } from 'src/app/models/pokemon/pokemon';
+import { CollectionService } from 'src/app/services/collection.service';
 import { PokemonService } from 'src/app/services/pokemon.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class CataloguePageComponent implements OnDestroy {
   public pageCount$: Subscription;
   public pokemons: Pokemon[] = [];
 
-  constructor(private service: PokemonService) {
+  constructor(private service: PokemonService, private collectionService: CollectionService) {
     this.service.fetchPokemons(1);
     this.pokemons$ = this.service.pokemons$.subscribe((val) => {
       this.pokemons = val;

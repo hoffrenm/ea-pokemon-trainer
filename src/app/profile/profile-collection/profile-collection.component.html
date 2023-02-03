@@ -1,6 +1,12 @@
-<h3>Your pokemon collection</h3>
-<ul>
+<h3 class="font-bot mx-20 text-orange-500">My collection ({{collectionSize}})</h3>
+<section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mx-20 my-10">
     <div *ngFor="let pokemon of collection">
-        <app-profile-collection-item [collectionItem]="pokemon"></app-profile-collection-item>
+        <app-catalogue-list-item [pokemon]="pokemon"></app-catalogue-list-item>
     </div>
-</ul>
+</section>
+
+<!-- <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mx-20 my-10">
+    <div *ngFor="let pokemon of pokemons">
+        <app-catalogue-list-item [pokemon]="pokemon"></app-catalogue-list-item>
+    </div>
+</section> -->
