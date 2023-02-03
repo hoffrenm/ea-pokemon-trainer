@@ -23,6 +23,7 @@ export class PagerService {
   }
 
   public onPageChange(page: number) {
+    if (page <= 0) return;
     this._currentPage$.next(page);
     this.calculateDisplayed(page);
   }

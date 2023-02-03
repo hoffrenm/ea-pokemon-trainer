@@ -1,6 +1,7 @@
 <div class="flex place-content-center items-center mt-6">
 
-    <button (click)="onPreviousClick()" class="border border-secondary bg-white drop-shadow mx-5 p-2 rounded-full">
+    <button (click)="onPreviousClick()"
+        class="border hover:border-primary hover:translate-y-[1px] border-secondary bg-white drop-shadow mx-5 p-2 rounded-full">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke="#FEB47B" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
         </svg>
@@ -10,7 +11,7 @@
 
         <ng-container *ngFor="let page of pages">
             <p class="text-subtitle text-2xl" *ngIf="shouldRenderFirstDots(page)">...</p>
-            <button (click)="goToPage(page)">
+            <button class="hover:translate-y-[2px] hover:border-b-2 " (click)="goToPage(page)">
                 <p class="font-bot text-2xl w-10 cursor-pointer text-subtitle"
                     [ngClass]="{'border-b-2 border-black text-black': page === currentPage}">
                     {{page}}</p>
@@ -21,7 +22,8 @@
         </ng-container>
     </ul>
 
-    <button (click)="onNextClick()" class="border border-secondary bg-white drop-shadow mx-5 p-2 rounded-full">
+    <button (click)="onNextClick()"
+        class="border hover:border-primary hover:translate-y-[1px] border-secondary bg-white drop-shadow mx-5 p-2 rounded-full">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#FEB47B"
             class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
