@@ -7,43 +7,36 @@ import { TrainerService } from 'src/app/services/trainer.service';
 @Component({
   selector: 'app-collection-update-button',
   templateUrl: './collection-update-button.component.html',
-  styleUrls: ['./collection-update-button.component.css']
+  styleUrls: ['./collection-update-button.component.css'],
 })
 export class CollectionUpdateButtonComponent implements OnInit {
-
   @Input() pokemon?: Pokemon;
 
   get inCollection(): boolean {
-
     if (this.pokemon) {
-      return this.trainerService.inCollection(this.pokemon.name)
-    }
-    else return false
+      return this.trainerService.inCollection(this.pokemon.name);
+    } else return false;
   }
 
   constructor(
     private readonly collectionService: CollectionService,
     private readonly trainerService: TrainerService
-  ) {
+  ) {}
 
-  }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  onClick(event: any): void {
+    event.stopPropagation();
 
-  }
-
-
-  onClick(): void {
     if (this.pokemon) {
       this.collectionService.updateCollection(this.pokemon.name).subscribe({
-        next: (response: any) => {
-        }, error: (error: HttpErrorResponse) => {
-          console.log("ERROR", error.message)
-        }
-      })
+        next: (response: any) => {},
+        error: (error: HttpErrorResponse) => {
+          console.log('ERROR', error.message);
+        },
+      });
     } else {
-      console.log("cant update undefined")
+      console.log('cant update undefined');
     }
-
   }
 }

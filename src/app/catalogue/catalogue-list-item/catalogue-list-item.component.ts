@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Pokemon } from 'src/app/models/pokemon/pokemon';
 
 @Component({
@@ -8,4 +9,12 @@ import { Pokemon } from 'src/app/models/pokemon/pokemon';
 })
 export class CatalogueListItemComponent {
   @Input() pokemon?: Pokemon;
+
+  constructor(private router: Router) {}
+
+  public onClick() {
+    this.router.navigate(['/pokemon'], {
+      queryParams: { id: this.pokemon?.id },
+    });
+  }
 }
