@@ -1,4 +1,12 @@
-<div class="flex">
-    <img class="w-12 h-12 ml-20 mr-6 my-10" src="assets/usericon.png" alt="Usericon" />
-    <h1 class="font-bot m-auto ml-0 text-3xl text-black text-left">Trainer name: {{trainerName}}</h1>
+<div class="flex flex-row justify-between items-center">
+    <div class="flex flex-start ml-20 my-10">
+        <img class="w-12 h-12 mr-6" src="assets/usericon.png" alt="Usericon" />
+        <h1 class="font-bot m-auto ml-0 text-3xl text-black text-left">Trainer name: {{trainerName}}</h1>
+    </div>
+    <div class="flex mx-20">
+        <button (click)="handleLogout()"
+        class="px-20 py-4 bg-white text-orange-600 font-medium text-xl rounded-xl shadow-lg border border-orange-600 hover:bg-orange-600 hover:shadow-xl hover:text-white transition duration-150 ease-in-out">
+        Logout
+      </button>
+    </div>
 </div>
