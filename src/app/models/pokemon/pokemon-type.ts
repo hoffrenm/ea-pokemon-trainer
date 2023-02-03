@@ -6,8 +6,8 @@ export interface PokemonType {
 }
 
 /** Return a hex for the type */
-export const resolveColor = (type: PokemonType): string => {
-  const k = type.type.name as key;
+export const resolveColor = (typeName: string): string => {
+  const k = typeName as key;
   return colors[k];
 };
 
