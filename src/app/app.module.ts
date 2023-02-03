@@ -21,6 +21,8 @@ import { LoginFormComponent } from './login/login-form/login-form.component';
 import { PageBackgroundComponent } from './common/page-background/page-background.component';
 import { PageWrapperComponent } from './common/page-wrapper/page-wrapper.component';
 import { PageNavbarComponent } from './common/page-navbar/page-navbar.component';
+import { DetailsPageComponent } from './details/details-page/details-page.component';
+import { DetailsCardComponent } from './details/details-card/details-card.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { PageNavbarComponent } from './common/page-navbar/page-navbar.component'
     PageNavbarComponent,
     LoginPageComponent,
     LoginFormComponent,
+    DetailsPageComponent,
+    DetailsCardComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [PokemonService, LoginService],
