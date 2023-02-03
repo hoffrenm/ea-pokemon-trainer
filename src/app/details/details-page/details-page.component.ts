@@ -16,7 +16,6 @@ export class DetailsPageComponent implements OnDestroy {
   constructor(private route: ActivatedRoute, private service: PokemonService) {
     this.pokemons$ = service.pokemonDetails$.subscribe((it) => {
       this.pokemon = it;
-      console.log(it);
     });
   }
 
