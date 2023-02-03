@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Pokemon } from 'src/app/models/pokemon/pokemon';
+import { CollectionService } from 'src/app/services/collection.service';
 import { PagerService } from 'src/app/services/pager.service';
 import { PokemonService } from 'src/app/services/pokemon.service';
 

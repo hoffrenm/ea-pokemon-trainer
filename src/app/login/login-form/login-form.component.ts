@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { User } from 'src/app/models/user/user';
+import { Trainer } from 'src/app/models/trainer.model';
 import { LoginService } from 'src/app/services/login.service';
-import { UserService } from 'src/app/services/user.service';
+import { TrainerService } from 'src/app/services/trainer.service';
 
 @Component({
   selector: 'app-login-form',
@@ -11,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginFormComponent {
   constructor(
-    private readonly userService: UserService,
+    private readonly trainerService: TrainerService,
     private readonly loginService: LoginService) {
   }
 
@@ -22,8 +22,8 @@ export class LoginFormComponent {
 
     this.loginService.login(username)
       .subscribe({
-        next: (user: User) => {
-          this.userService.user = user;
+        next: (trainer: Trainer) => {
+          this.trainerService.trainer = trainer;
           this.login.emit();
         },
         error: (e) => {
