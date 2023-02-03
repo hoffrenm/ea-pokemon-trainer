@@ -5,10 +5,11 @@ import { Pokemon } from '../models/pokemon/pokemon';
 import {
   PokemonDetailsResponse,
   PokemonResponse,
+  PokemonSpeciesResponse,
 } from '../models/pokemon/pokemon-responses';
 import { map } from 'rxjs';
 import { PokemonAdapter } from '../models/pokemon/pokemon-adapter';
-import { PokemonCache } from '../models/pokemon/pokemon-cache';
+import { CacheExtras, PokemonCache } from '../models/pokemon/pokemon-cache';
 
 // How many pokemons per fetch
 const BATCH_SIZE = 50;
@@ -17,7 +18,6 @@ const BATCH_SIZE = 50;
   providedIn: 'root',
 })
 export class PokemonService {
-  private readonly detailsPageNum = -1;
   private cache: PokemonCache = new PokemonCache();
   private readonly _pageCount$ = new BehaviorSubject<number>(1);
   private readonly _pokemons$ = new BehaviorSubject<Pokemon[]>([]);
@@ -97,8 +97,8 @@ export class PokemonService {
 
     forkJoin(requests).subscribe((pokemons) => {
       // Save to page -1
-      const existing = this.cache.get(this.detailsPageNum) ?? [];
-      this.cache.set(this.detailsPageNum, existing.concat(pokemons));
+      const existing = this.cache.get(CacheExtras.Extra) ?? [];
+      this.cache.set(CacheExtras.Extra, existing.concat(pokemons));
       this._pokemonsByIds$.next(local.concat(pokemons));
     });
   }
@@ -110,21 +110,28 @@ export class PokemonService {
       return;
     }
 
-    // If page -1 contains the pokemon, use that since it has been fetched with the detail query.
-    const cached = this.cache.get(-1)?.find((it) => it.id === id);
+    const cached = this.cache
+      .get(CacheExtras.Details)
+      ?.find((it) => it.id == id);
+
     if (cached) {
       this._withDetails$.next(cached);
       return;
     }
 
-    this.http
-      .get<PokemonDetailsResponse>(`https://pokeapi.co/api/v2/pokemon/${id}`)
-      .pipe(map(PokemonAdapter.transformDetailsResponse))
-      .subscribe((it) => {
-        const ex = this.cache.get(this.detailsPageNum) ?? [];
-        this.cache.set(this.detailsPageNum, ex.concat(it));
-        this._withDetails$.next(it);
-      });
+    forkJoin({
+      details: this.http.get<PokemonDetailsResponse>(
+        `https://pokeapi.co/api/v2/pokemon/${id}`
+      ),
+      species: this.http.get<PokemonSpeciesResponse>(
+        `https://pokeapi.co/api/v2/pokemon-species/${id}`
+      ),
+    }).subscribe(({ details, species }) => {
+      const pokemon = PokemonAdapter.combineResponses(details, species);
+      const ex = this.cache.get(CacheExtras.Details) ?? [];
+      this.cache.set(CacheExtras.Details, ex.concat(pokemon));
+      this._withDetails$.next(pokemon);
+    });
   }
 
   private updatePageCount = (response: PokemonResponse): PokemonResponse => {

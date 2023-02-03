@@ -6,5 +6,6 @@ export interface Pokemon {
   name: string;
   imageUrl: string;
   types?: PokemonType[];
-  stats?: PokemonStat[]; 
+  stats?: PokemonStat[];
+  flavorTexts?: string[];
 }

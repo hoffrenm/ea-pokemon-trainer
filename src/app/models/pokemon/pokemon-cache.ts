@@ -2,8 +2,14 @@ import { StorageKeys } from 'src/app/enums/storage-keys.enum';
 import { StorageUtils } from 'src/app/utils/storage.util';
 import { Pokemon } from './pokemon';
 
+// 'pages' to save non paged pokemons
+export enum CacheExtras {
+  Details = -1, // Save pokemons with all the fields fetched
+  Extra = -2, // Save pokemons with only name & id
+}
+
 /**
- * Cache pokemons in session storage.
+ * Cache pokemons in pages to session storage.
  */
 export class PokemonCache {
   private pageCount = 1;

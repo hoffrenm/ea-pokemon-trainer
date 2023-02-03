@@ -7,14 +7,17 @@
         <img class="m-auto h-64 w-64 mt-5" src="{{ pokemon?.imageUrl }}" />
 
 
-        <div class="flex mt-5">
-
+        <div class="flex my-5">
             <ng-container *ngFor="let type of pokemon?.types">
                 <p class="inline-block ml-1 font-bot font-bold text-white px-3 py-1 rounded-full"
                     [ngStyle]="{'background-color' : resolveTypeColor(type)}">
                     {{ capFirst(type.type.name) }}
                 </p>
             </ng-container>
+        </div>
+
+        <div>
+            <p>{{ pokemon?.flavorTexts?.join("@@@@") }}</p>
         </div>
     </section>
 
