@@ -8,6 +8,7 @@ import {
 } from '../models/pokemon/pokemon-responses';
 import { map } from 'rxjs';
 import { PokemonAdapter } from '../models/pokemon/pokemon-adapter';
+import { PokemonCache } from '../models/pokemon/pokemon-cache';
 
 // How many pokemons per fetch
 const BATCH_SIZE = 50;
@@ -16,11 +17,15 @@ const BATCH_SIZE = 50;
   providedIn: 'root',
 })
 export class PokemonService {
-  private cache: Map<number, Pokemon[]> = new Map();
+  private readonly detailsPageNum = -1;
+  private cache: PokemonCache = new PokemonCache();
   private readonly _pageCount$ = new BehaviorSubject<number>(1);
   private readonly _pokemons$ = new BehaviorSubject<Pokemon[]>([]);
   private readonly _pokemonsByIds$ = new BehaviorSubject<Pokemon[]>([]);
   private readonly _pokemonsByNames$ = new BehaviorSubject<Pokemon[]>([]);
+  private readonly _withDetails$ = new BehaviorSubject<Pokemon | undefined>(
+    undefined
+  );
 
   constructor(private http: HttpClient) { }
 
@@ -37,6 +42,10 @@ export class PokemonService {
   public get pokemonsByNames$(): Observable<Pokemon[]> {
     return this._pokemonsByNames$.asObservable();
   }
+  /** Last pokemon fetched via fetchDetails() */
+  public get pokemonDetails$(): Observable<Pokemon | undefined> {
+    return this._withDetails$.asObservable();
+  }
 
   /** Total available page count of pokemons. */
   public get pageCount$(): Observable<number> {
@@ -47,6 +56,7 @@ export class PokemonService {
     if (this.cache.has(page)) {
       const pokemons = this.cache.get(page)!!;
       this._pokemons$.next(pokemons);
+      this._pageCount$.next(this.cache.getPageCount());
       return;
     }
 
@@ -65,10 +75,9 @@ export class PokemonService {
   }
 
   public fetchByIds(ids: number[]) {
-    console.log('Fetch by ids called');
     const fetchIds: Set<number> = new Set(ids);
-    const cached = [...this.cache.values()];
-    const local = cached.flat().filter((it) => {
+    const cached = this.cache.all();
+    const local = cached.filter((it) => {
       if (ids.includes(it.id) && fetchIds.has(it.id)) {
         fetchIds.delete(it.id);
         return true;
@@ -92,7 +101,8 @@ export class PokemonService {
 
     forkJoin(requests).subscribe((pokemons) => {
       // Save to page -1
-      this.cache.set(-1, pokemons);
+      const existing = this.cache.get(this.detailsPageNum) ?? [];
+      this.cache.set(this.detailsPageNum, existing.concat(pokemons));
       this._pokemonsByIds$.next(local.concat(pokemons));
     });
   }
@@ -106,7 +116,7 @@ export class PokemonService {
     names = temp
     console.log('Fetch by names called');
     const fetchNames: Set<string> = new Set(names);
-    const cached = [...this.cache.values()];
+    const cached = this.cache.all();
     const local = cached.flat().filter((it) => {
       if (names.includes(it.name) && fetchNames.has(it.name)) {
         fetchNames.delete(it.name);
@@ -134,18 +144,44 @@ export class PokemonService {
       this.cache.set(-1, pokemons);
       this._pokemonsByNames$.next(local.concat(pokemons));
     });
+
+  }
+  /** Fetch single pokemon details and expose it via pokemonDetails$. Pass null to clear. */
+  public fetchDetails(id: number | null) {
+    if (id === null) {
+      this._withDetails$.next(undefined);
+      return;
+    }
+
+    // If page -1 contains the pokemon, use that since it has been fetched with the detail query.
+    const cached = this.cache.get(-1)?.find((it) => it.id === id);
+    if (cached) {
+      this._withDetails$.next(cached);
+      return;
+    }
+
+    this.http
+      .get<PokemonDetailsResponse>(`https://pokeapi.co/api/v2/pokemon/${id}`)
+      .pipe(map(PokemonAdapter.transformDetailsResponse))
+      .subscribe((it) => {
+        const ex = this.cache.get(this.detailsPageNum) ?? [];
+        this.cache.set(this.detailsPageNum, ex.concat(it));
+        this._withDetails$.next(it);
+      });
   }
 
   private updatePageCount = (response: PokemonResponse): PokemonResponse => {
     if (this._pageCount$.value === 1) {
-      this._pageCount$.next(response.count / BATCH_SIZE);
+      const count = Math.ceil(response.count / BATCH_SIZE);
+      this._pageCount$.next(count);
+      this.cache.setPageCount(count);
     }
     return response;
   };
 
   //Function for finding pokemon with parameter name from cache
   public pokemonByName(name: string): Pokemon | undefined {
-    const cached = [...this.cache.values()];
+    const cached = this.cache.all();
     if (cached.flat().find((e) => e.name.toLowerCase() === name.toLowerCase()) !== undefined) {
       return cached.flat().find((e) => e.name.toLowerCase() === name.toLowerCase())
     }

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Trainer } from 'src/app/models/trainer.model';
-import { User } from 'src/app/models/user/user';
 import { LoginService } from 'src/app/services/login.service';
 import { TrainerService } from 'src/app/services/trainer.service';
 
