@@ -1,4 +1,7 @@
 export interface PokemonStat {
-  stat: string;
+  stat: {
+    name: string;
+  };
   effort: number;
+  base_stat: number;
 }

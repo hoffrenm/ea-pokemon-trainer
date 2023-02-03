@@ -1,5 +1,31 @@
-<div class="bg-white drop-shadow p-3 rounded-lg mx-20">
-    <p class="font-int text-2xl text-primary">#{{pokemon?.id}} {{pokemon?.name}}</p>
-    <img class="h-60" src="{{pokemon?.imageUrl}}" />
+<div class="flex m-auto flex-row justify-between bg-white drop-shadow p-3 rounded-lg max-w-4xl">
 
+    <section class="flex-1 flex-col justify-items-center">
+        <p class="font-int text-2xl text-primary">
+            #{{ pokemon?.id }} {{ pokemon?.name }}
+        </p>
+        <img class="m-auto h-64 w-64 mt-5" src="{{ pokemon?.imageUrl }}" />
+
+
+        <div class="flex mt-5">
+
+            <ng-container *ngFor="let type of pokemon?.types">
+                <p class="inline-block ml-1 font-bot font-bold text-white px-3 py-1 rounded-full"
+                    [ngStyle]="{'background-color' : resolveTypeColor(type)}">
+                    {{ capFirst(type.type.name) }}
+                </p>
+            </ng-container>
+        </div>
+    </section>
+
+    <span class="bg-gray-100 place-self-center w-[1px] mx-4 h-64"></span>
+
+    <section class="flex-1 my-20">
+        <ul class="font-bot h-fit p-3 bg-secondary bg-opacity-40 rounded-lg">
+            <li class="flex flex-row justify-between mt-1" *ngFor="let stat of pokemon?.stats">
+                <p>{{ capFirst(stat.stat.name) }}</p>
+                <p class="font-bold">{{ stat.base_stat }}</p>
+            </li>
+        </ul>
+    </section>
 </div>

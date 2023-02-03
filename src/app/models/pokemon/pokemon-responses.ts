@@ -1,5 +1,6 @@
 import { Pokemon } from './pokemon';
 import { PokemonStat } from './pokemon-stat';
+import { PokemonType } from './pokemon-type';
 
 /**
  * Server JSON Responses for the endpoints.
@@ -26,4 +27,5 @@ export interface PokemonDetailsResponse {
   id: number;
   name: string;
   stats: PokemonStat[];
+  types: PokemonType[];
 }
