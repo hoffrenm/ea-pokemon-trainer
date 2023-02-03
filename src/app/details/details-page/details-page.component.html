@@ -1,15 +1,13 @@
 <app-page-wrapper>
 
     <div class="mx-3 my-10">
-        <a routerLink="..">
-            <button
-                class="mb-2 border-2 hover:border-primary hover:translate-y-[1px] border-secondary bg-white drop-shadow mx-5 p-2 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="3" stroke="#FEB47B"
-                    class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                </svg>
-            </button>
-        </a>
+        <button (click)="back()"
+            class="mb-2 border-2 hover:border-primary hover:translate-y-[1px] border-secondary bg-white drop-shadow mx-5 p-2 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="3" stroke="#FEB47B"
+                class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+        </button>
 
         <app-details-card [pokemon]="pokemon"></app-details-card>
     </div>
