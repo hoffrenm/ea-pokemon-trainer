@@ -1,14 +1,17 @@
-<header>
-    <app-profile-info [trainerName]="username"></app-profile-info>
-    <!-- <li *ngFor="let pokemon of pokemons">
+<app-page-wrapper>
+    <header>
+
+        <div class="pt-14">
+            <app-profile-info [trainerName]="username"></app-profile-info>
+        </div>
+        <!-- <li *ngFor="let pokemon of pokemons">
         <span>{{pokemon.name}}</span>
     </li> -->
-</header>
+    </header>
 
-<main>
+    <main>
 
-    <p *ngIf="loading">Loading pokemons...</p>
+        <app-profile-collection [collection]="trainersCollection"></app-profile-collection>
 
-    <app-profile-collection [collection]="collection"></app-profile-collection>
-
-</main>
+    </main>
+</app-page-wrapper>

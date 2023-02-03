@@ -8,9 +8,10 @@ import { Pokemon } from 'src/app/models/pokemon/pokemon';
 })
 export class ProfileCollectionItemComponent implements OnInit {
   //@Input() pokemon: Pokemon | undefined = undefined
-  @Input() collectionItem: string = '';
+  // @Input() collectionItem: string = '';
+  @Input() pokemon: Pokemon = { id: 0, name: "", imageUrl: "" };
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 }

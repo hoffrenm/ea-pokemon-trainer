@@ -1,1 +1,8 @@
-<button (click)="onClick()">X</button>
+<ng-template #collected>&#9829;</ng-template>
+<ng-template #notCollected>&#9825;</ng-template>
+<div class="pr-6">
+    <button
+        class="w-14 mt-1 mb-1 text-3xl justify-self-end border-white cursor-pointer rounded-full px-3 py-2 bg-white text-orange-400 hover:bg-gray-200 duration-300"
+        (click)="onClick()"><span class="hover: cursor-waiting" *ngIf="inCollection; then collected else notCollected">
+        </span></button>
+</div>

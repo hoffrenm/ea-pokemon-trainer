@@ -22,11 +22,12 @@ export class PokemonService {
   private readonly _pageCount$ = new BehaviorSubject<number>(1);
   private readonly _pokemons$ = new BehaviorSubject<Pokemon[]>([]);
   private readonly _pokemonsByIds$ = new BehaviorSubject<Pokemon[]>([]);
+  private readonly _pokemonsByNames$ = new BehaviorSubject<Pokemon[]>([]);
   private readonly _withDetails$ = new BehaviorSubject<Pokemon | undefined>(
     undefined
   );
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /** List of the pokemons on the most recently fetched page. */
   public get pokemons$(): Observable<Pokemon[]> {
@@ -38,6 +39,9 @@ export class PokemonService {
     return this._pokemonsByIds$.asObservable();
   }
 
+  public get pokemonsByNames$(): Observable<Pokemon[]> {
+    return this._pokemonsByNames$.asObservable();
+  }
   /** Last pokemon fetched via fetchDetails() */
   public get pokemonDetails$(): Observable<Pokemon | undefined> {
     return this._withDetails$.asObservable();
@@ -103,6 +107,45 @@ export class PokemonService {
     });
   }
 
+
+  public fetchByNames(names: string[]) {
+    let temp: string[] = []
+    for (let i = 0; i < names.length; i++) {
+      temp.push(names[i].toLowerCase())
+    }
+    names = temp
+    console.log('Fetch by names called');
+    const fetchNames: Set<string> = new Set(names);
+    const cached = this.cache.all();
+    const local = cached.flat().filter((it) => {
+      if (names.includes(it.name) && fetchNames.has(it.name)) {
+        fetchNames.delete(it.name);
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    // All pokemon names found in cache, skip requests
+    if (fetchNames.size === 0 && cached.length !== 0) {
+      this._pokemonsByNames$.next(local);
+      return;
+    }
+
+    // Fetch the pokemons not found locally
+    const requests: Observable<Pokemon>[] = [...fetchNames].map((it) => {
+      return this.http
+        .get<PokemonDetailsResponse>(`https://pokeapi.co/api/v2/pokemon/${it}`)
+        .pipe(map(PokemonAdapter.transformDetailsResponse));
+    });
+
+    forkJoin(requests).subscribe((pokemons) => {
+      // Save to page -1
+      this.cache.set(-1, pokemons);
+      this._pokemonsByNames$.next(local.concat(pokemons));
+    });
+
+  }
   /** Fetch single pokemon details and expose it via pokemonDetails$. Pass null to clear. */
   public fetchDetails(id: number | null) {
     if (id === null) {
@@ -135,4 +178,13 @@ export class PokemonService {
     }
     return response;
   };
+
+  //Function for finding pokemon with parameter name from cache
+  public pokemonByName(name: string): Pokemon | undefined {
+    const cached = this.cache.all();
+    if (cached.flat().find((e) => e.name.toLowerCase() === name.toLowerCase()) !== undefined) {
+      return cached.flat().find((e) => e.name.toLowerCase() === name.toLowerCase())
+    }
+    return undefined
+  }
 }
