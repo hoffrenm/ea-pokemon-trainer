@@ -1,5 +1,5 @@
 import { StorageKeys } from 'src/app/enums/storage-keys.enum';
-import { StorageUtils } from 'src/app/utils/storage.util';
+import { StorageUtils } from 'src/app/utils/storage.utils';
 import { Pokemon } from './pokemon';
 
 /**
