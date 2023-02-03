@@ -1,3 +1,4 @@
+import { StorageKeys } from 'src/app/enums/storage-keys.enum';
 import { StorageUtils } from 'src/app/utils/storage.util';
 import { Pokemon } from './pokemon';
 
@@ -5,8 +6,6 @@ import { Pokemon } from './pokemon';
  * Cache pokemons in session storage.
  */
 export class PokemonCache {
-  private KEY_DATA = 'pokemon-cache-pokemons';
-  private KEY_COUNT = 'pokemon-cache-page-count';
   private pageCount = 1;
   private pokemons = new Map<number, Pokemon[]>();
 
@@ -33,7 +32,7 @@ export class PokemonCache {
 
   public setPageCount(count: number): void {
     this.pageCount = count;
-    StorageUtils.storageSave(this.KEY_COUNT, count);
+    StorageUtils.storageSave(StorageKeys.PokemonCount, count);
   }
 
   public getPageCount(): number {
@@ -41,8 +40,8 @@ export class PokemonCache {
   }
 
   private load(): void {
-    const count = StorageUtils.storageRead<number>(this.KEY_COUNT);
-    const pages = StorageUtils.storageRead<string>(this.KEY_DATA);
+    const count = StorageUtils.storageRead<number>(StorageKeys.PokemonCount);
+    const pages = StorageUtils.storageRead<string>(StorageKeys.PokemonList);
 
     this.pageCount = count ?? 1;
 
@@ -55,6 +54,6 @@ export class PokemonCache {
 
   private updateSaved(): void {
     const json = JSON.stringify([...this.pokemons.entries()]);
-    StorageUtils.storageSave(this.KEY_DATA, json);
+    StorageUtils.storageSave(StorageKeys.PokemonList, json);
   }
 }
