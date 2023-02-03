@@ -14,20 +14,20 @@ export class DetailsPageComponent implements OnDestroy {
   public pokemon?: Pokemon;
 
   constructor(private route: ActivatedRoute, private service: PokemonService) {
-    this.pokemons$ = service.pokemonsById$.subscribe((arr) => {
-      if (arr.length !== 1) return;
-      this.pokemon = arr.at(0);
+    this.pokemons$ = service.pokemonDetails$.subscribe((it) => {
+      this.pokemon = it;
+      console.log(it);
     });
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
-      this.service.fetchByIds([params['id']]);
+      this.service.fetchDetails(params['id']);
     });
   }
 
   ngOnDestroy(): void {
-    this.service.fetchByIds([]);
+    this.service.fetchDetails(null);
     this.pokemons$.unsubscribe();
   }
 }

@@ -17,10 +17,14 @@ const BATCH_SIZE = 50;
   providedIn: 'root',
 })
 export class PokemonService {
+  private readonly detailsPageNum = -1;
   private cache: PokemonCache = new PokemonCache();
   private readonly _pageCount$ = new BehaviorSubject<number>(1);
   private readonly _pokemons$ = new BehaviorSubject<Pokemon[]>([]);
   private readonly _pokemonsByIds$ = new BehaviorSubject<Pokemon[]>([]);
+  private readonly _withDetails$ = new BehaviorSubject<Pokemon | undefined>(
+    undefined
+  );
 
   constructor(private http: HttpClient) {}
 
@@ -32,6 +36,11 @@ export class PokemonService {
   /** List of the pokemons matching the last fetch by ids result. */
   public get pokemonsById$(): Observable<Pokemon[]> {
     return this._pokemonsByIds$.asObservable();
+  }
+
+  /** Last pokemon fetched via fetchDetails() */
+  public get pokemonDetails$(): Observable<Pokemon | undefined> {
+    return this._withDetails$.asObservable();
   }
 
   /** Total available page count of pokemons. */
@@ -88,9 +97,34 @@ export class PokemonService {
 
     forkJoin(requests).subscribe((pokemons) => {
       // Save to page -1
-      this.cache.set(-1, pokemons);
+      const existing = this.cache.get(this.detailsPageNum) ?? [];
+      this.cache.set(this.detailsPageNum, existing.concat(pokemons));
       this._pokemonsByIds$.next(local.concat(pokemons));
     });
+  }
+
+  /** Fetch single pokemon details and expose it via pokemonDetails$. Pass null to clear. */
+  public fetchDetails(id: number | null) {
+    if (id === null) {
+      this._withDetails$.next(undefined);
+      return;
+    }
+
+    // If page -1 contains the pokemon, use that since it has been fetched with the detail query.
+    const cached = this.cache.get(-1)?.find((it) => it.id === id);
+    if (cached) {
+      this._withDetails$.next(cached);
+      return;
+    }
+
+    this.http
+      .get<PokemonDetailsResponse>(`https://pokeapi.co/api/v2/pokemon/${id}`)
+      .pipe(map(PokemonAdapter.transformDetailsResponse))
+      .subscribe((it) => {
+        const ex = this.cache.get(this.detailsPageNum) ?? [];
+        this.cache.set(this.detailsPageNum, ex.concat(it));
+        this._withDetails$.next(it);
+      });
   }
 
   private updatePageCount = (response: PokemonResponse): PokemonResponse => {
