@@ -8,4 +8,5 @@ export interface Pokemon {
   types?: PokemonType[];
   stats?: PokemonStat[];
   flavorTexts?: string[];
+  typesWeakAgainst?: string[];
 }

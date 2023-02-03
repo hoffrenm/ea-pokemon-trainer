@@ -15,10 +15,7 @@
                 </p>
             </ng-container>
         </div>
-
-        <div>
-            <p>{{ pokemon?.flavorTexts?.join("@@@@") }}</p>
-        </div>
+        <p [@fade]="fade" class="text-gray-600 px-2 pb-3">{{flavorText}}</p>
     </section>
 
     <span class="bg-gray-100 place-self-center w-[1px] mx-4 h-64"></span>
@@ -30,5 +27,15 @@
                 <p class="font-bold">{{ stat.base_stat }}</p>
             </li>
         </ul>
+
+        <p class="mt-5 mb-2 font-bot text-subtitle">Weak against:</p>
+        <div class="flex flex-c">
+            <ng-container *ngFor="let type of pokemon?.typesWeakAgainst">
+                <p class="inline-block ml-1 font-bot font-bold text-white px-3 py-1 rounded-full"
+                    [ngStyle]="{'background-color' : resolveTypeColorStr(type)}">
+                    {{ capFirst(type) }}
+                </p>
+            </ng-container>
+        </div>
     </section>
 </div>

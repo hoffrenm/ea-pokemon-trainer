@@ -6,6 +6,7 @@ import {
   PokemonDetailsResponse,
   PokemonResponse,
   PokemonSpeciesResponse,
+  PokemonTypeResponse,
 } from './pokemon-responses';
 
 /**
@@ -30,13 +31,19 @@ export class PokemonAdapter {
 
   static combineResponses(
     details: PokemonDetailsResponse,
-    species: PokemonSpeciesResponse
+    species: PokemonSpeciesResponse,
+    type: PokemonTypeResponse
   ): Pokemon {
     const engTexts = new Set(
       species.flavor_text_entries
         .filter((it) => it.language.name === 'en')
-        .map((it) => it.flavor_text.replaceAll('', ''))
+        .map((it) => it.flavor_text.replaceAll('', ' '))
     );
+
+    const types = details.types.map((it) => it.type.name);
+    const weakagainst = type.damage_relations.double_damage_from
+      .map((it) => it.name)
+      .filter((it) => !types.includes(it));
 
     return {
       id: details.id,
@@ -45,6 +52,7 @@ export class PokemonAdapter {
       stats: details.stats,
       types: details.types,
       flavorTexts: shuffle([...engTexts]),
+      typesWeakAgainst: weakagainst,
     };
   }
 

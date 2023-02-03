@@ -23,6 +23,7 @@ import { PageWrapperComponent } from './common/page-wrapper/page-wrapper.compone
 import { PageNavbarComponent } from './common/page-navbar/page-navbar.component';
 import { DetailsPageComponent } from './details/details-page/details-page.component';
 import { DetailsCardComponent } from './details/details-card/details-card.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,13 @@ import { DetailsCardComponent } from './details/details-card/details-card.compon
     DetailsPageComponent,
     DetailsCardComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+  ],
   providers: [PokemonService, LoginService],
   bootstrap: [AppComponent],
 })

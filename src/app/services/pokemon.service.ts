@@ -6,6 +6,7 @@ import {
   PokemonDetailsResponse,
   PokemonResponse,
   PokemonSpeciesResponse,
+  PokemonTypeResponse,
 } from '../models/pokemon/pokemon-responses';
 import { map } from 'rxjs';
 import { PokemonAdapter } from '../models/pokemon/pokemon-adapter';
@@ -127,10 +128,20 @@ export class PokemonService {
         `https://pokeapi.co/api/v2/pokemon-species/${id}`
       ),
     }).subscribe(({ details, species }) => {
-      const pokemon = PokemonAdapter.combineResponses(details, species);
-      const ex = this.cache.get(CacheExtras.Details) ?? [];
-      this.cache.set(CacheExtras.Details, ex.concat(pokemon));
-      this._withDetails$.next(pokemon);
+      this.http
+        .get<PokemonTypeResponse>(
+          `https://pokeapi.co/api/v2/type/${details.types[0].type.name}`
+        )
+        .subscribe((type) => {
+          const pokemon = PokemonAdapter.combineResponses(
+            details,
+            species,
+            type
+          );
+          const ex = this.cache.get(CacheExtras.Details) ?? [];
+          this.cache.set(CacheExtras.Details, ex.concat(pokemon));
+          this._withDetails$.next(pokemon);
+        });
     });
   }
 

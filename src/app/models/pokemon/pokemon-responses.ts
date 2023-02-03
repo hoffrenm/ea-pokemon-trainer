@@ -41,3 +41,11 @@ export interface PokemonSpeciesResponse {
     };
   }[];
 }
+
+export interface PokemonTypeResponse {
+  damage_relations: {
+    double_damage_from: {
+      name: string;
+    }[];
+  };
+}
