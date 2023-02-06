@@ -1,6 +1,6 @@
 # EaPokemonTrainer
 
-[application](https://hoffrenm.github.io/ea-pokemon-trainer/)
+Link for the [application](https://hoffrenm.github.io/ea-pokemon-trainer/)
 
 This is an application for the user to view pokemons and 'collect' them. 
 
@@ -16,3 +16,5 @@ Catalogue page
 ![ss2](./screenshot/ss_2.png)
 Pokemon info page
 ![ss3](./screenshot/ss_3.png)
+Profile page
+<img src="./screenshot/ss_4.png" />
