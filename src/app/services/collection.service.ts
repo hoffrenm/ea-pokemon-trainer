@@ -68,7 +68,7 @@ export class CollectionService implements OnDestroy {
     let pokemonList: string[] = []
     let addablePokemon: Pokemon | undefined
 
-    //If trainer has parameter pokemon remove it from collection else add it to collection 
+    //If trainer has parameter pokemon remove it from the collection else add it to the collection 
     if (this.trainerService.inCollection(pokeName)) {
       let index = this.collection.findIndex(item => item.name.toLowerCase() === pokeName)
       if (index !== -1) {
@@ -88,6 +88,7 @@ export class CollectionService implements OnDestroy {
       'x-api-key': apiKey,
     });
 
+    //HTTP request
     return this.http
       .patch<Trainer>(
         `${userApi}/${trainer.id}`,
