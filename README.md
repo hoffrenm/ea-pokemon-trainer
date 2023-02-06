@@ -8,6 +8,8 @@ Pokemons are retrieved from [pokeapi](https://pokeapi.co/docs/v2), and the user 
 
 Goal of the project was to make a single-page application using Angular Framework.
 
+Contributors: Mika Hoffren, Leevi Limnell and Samuel Ahjoniemi
+
 ## Screenshots
 
 Login page
