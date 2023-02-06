@@ -28,7 +28,7 @@ export class PokemonService {
     undefined
   );
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /** List of the pokemons on the most recently fetched page. */
   public get pokemons$(): Observable<Pokemon[]> {

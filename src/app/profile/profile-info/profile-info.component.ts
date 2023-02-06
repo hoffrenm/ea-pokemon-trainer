@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageKeys } from 'src/app/enums/storage-keys.enum';
-import { LoginService } from 'src/app/services/login.service';
 import { TrainerService } from 'src/app/services/trainer.service';
 import { StorageUtils } from 'src/app/utils/storage.utils';
 

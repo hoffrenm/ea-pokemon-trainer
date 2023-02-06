@@ -10,7 +10,6 @@ import { CatalogueListComponent } from './catalogue/catalogue-list/catalogue-lis
 import { ProfileInfoComponent } from './profile/profile-info/profile-info.component';
 import { ProfilePage } from './profile/profile/profile.page';
 import { ProfileCollectionComponent } from './profile/profile-collection/profile-collection.component';
-import { ProfileCollectionItemComponent } from './profile/profile-collection-item/profile-collection-item.component';
 import { CollectionUpdateButtonComponent } from './components/collection-update-button/collection-update-button.component';
 import { PokemonService } from './services/pokemon.service';
 import { CatalogueListItemComponent } from './catalogue/catalogue-list-item/catalogue-list-item.component';
@@ -34,7 +33,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ProfileInfoComponent,
     ProfilePage,
     ProfileCollectionComponent,
-    ProfileCollectionItemComponent,
     CollectionUpdateButtonComponent,
     CatalogueListItemComponent,
     PageBackgroundComponent,
@@ -55,4 +53,4 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   providers: [PokemonService, LoginService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
