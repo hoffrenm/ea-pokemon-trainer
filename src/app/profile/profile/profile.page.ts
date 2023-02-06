@@ -63,6 +63,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     private readonly trainerService: TrainerService,
     private readonly collectionService: CollectionService
   ) {
+    pokemonService.fetchByNames(trainerService.trainer?.pokemon!)
+    pokemonService.pokemonsByNames$.subscribe((it) => this.pokemons = it)
 
   }
   ngOnDestroy(): void {
